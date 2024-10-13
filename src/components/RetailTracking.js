@@ -16,14 +16,7 @@ const RetailTracking = () => {
     fetchSales().catch(error => console.error("Fetching sales failed", error));
     const fetchCompaniesAndProducts = async () => {
       try {
-        //const companiesResponse = await axios.get('/api/companies');
-        const response = await fetch('/api/companies');
-
-        if (!response.ok) {
-        throw new Error('Network response was not ok');
-        }
-        const companiesResponse = await response.json();
-        console.log(companiesResponse)
+        const companiesResponse = await axios.get('https://apii-iviq.onrender.com/api/companies');
         setCompanies(companiesResponse.data.map(company => ({ label: company.name, value: company._id })));
         const productsResponse = await axios.get('/api/products');
         setProducts(productsResponse.data.map(product => ({ label: product.name, value: product._id, price: product.price })));
