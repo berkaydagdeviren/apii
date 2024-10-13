@@ -22,7 +22,11 @@ const app = express();
 app.set('trust proxy', true);
 
 // Enable CORS for all routes with specific configuration
-app.use(cors({ origin: ['http://localhost:3000', 'http://apii-iviq.onrender.com', 'https://apii-iviq.onrender.com'], credentials: true }))
+app.use(cors({
+        origin: "https://apii-iviq.onrender.com"
+    }
+))
+app.options('*', cors())
 
 // Middleware to parse JSON bodies
 app.use(express.json());
