@@ -23,7 +23,7 @@ const AddSaleItemForm = ({ saleId, onItemAdded }) => {
     }
 
     try {
-      const response = await axios.post('/api/sales/add-item', {
+      const response = await axios.post('https://apii-iviq.onrender.com/api/sales/add-item', {
         saleId,
         itemName,
         quantity: parseInt(quantity, 10),
