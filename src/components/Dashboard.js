@@ -13,7 +13,7 @@ const Dashboard = () => {
       return;
     }
 
-    axios.get('/api/user/role', {
+    axios.get('https://apii-iviq.onrender.com/api/user/role', {
       headers: {
         Authorization: `Bearer ${token}`
       }
