@@ -18,7 +18,7 @@ const RetailTracking = () => {
       try {
         const companiesResponse = await axios.get('https://apii-iviq.onrender.com/api/companies');
         setCompanies(companiesResponse.data.map(company => ({ label: company.name, value: company._id })));
-        const productsResponse = await axios.get('/api/products');
+        const productsResponse = await axios.get('https://apii-iviq.onrender.com/api/products');
         setProducts(productsResponse.data.map(product => ({ label: product.name, value: product._id, price: product.price })));
       } catch (error) {
         console.error("Error fetching companies or products:", error.response ? error.response.data : error.message);
@@ -29,7 +29,7 @@ const RetailTracking = () => {
 
   const fetchSales = async () => {
     try {
-      const response = await axios.get('/api/sales');
+      const response = await axios.get('https://apii-iviq.onrender.com/api/sales');
       setSales(response.data);
     } catch (error) {
       console.error("Failed to fetch sales:", error.response ? error.response.data : error.message);
@@ -38,7 +38,7 @@ const RetailTracking = () => {
 
   const deleteSale = async (id) => {
     try {
-      await axios.delete(`/api/sales/${id}`);
+      await axios.delete(`https://apii-iviq.onrender.com/api/sales/${id}`);
       fetchSales(); // Refresh the list after deleting
     } catch (error) {
       console.error("Failed to delete sale:", error.response ? error.response.data : error.message);
@@ -97,7 +97,7 @@ const RetailTracking = () => {
         }))
       };
       
-      await axios.post('/api/sales', saleData);
+      await axios.post('https://apii-iviq.onrender.com/api/sales', saleData);
       alert('Sale record added successfully');
       setSelectedProducts([]);
       setSelectedCompany(null); // Reset selected company after successful submission
