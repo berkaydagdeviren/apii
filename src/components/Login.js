@@ -11,7 +11,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3002/api/auth/login', { email, password });
+      const response = await axios.post('https://apii-iviq.onrender.com/api/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       navigate('/dashboard'); // Redirect to dashboard after successful login
       console.log('Login successful');
