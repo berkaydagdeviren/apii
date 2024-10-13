@@ -25,9 +25,9 @@ const Download = () => {
         fetchSales().catch(error => console.error("Fetching sales failed", error));
         const fetchCompaniesAndProducts = async () => {
             try {
-              const companiesResponse = await axios.get('/api/companies');
+              const companiesResponse = await axios.get('https://apii-iviq.onrender.com/api/companies');
               setCompanies(companiesResponse.data.map(company => ({ label: company.name, value: company._id })));
-              const productsResponse = await axios.get('/api/products');
+              const productsResponse = await axios.get('https://apii-iviq.onrender.com/api/products');
               setProducts(productsResponse.data.map(product => ({ label: product.name, value: product._id, price: product.price })));
             } catch (error) {
               console.error("Error fetching companies or products:", error.response ? error.response.data : error.message);
@@ -38,7 +38,7 @@ const Download = () => {
       }, []);
       const fetchProducts = async () => {
         try {
-          const response = await fetch('http://localhost:3002/api/products');
+          const response = await fetch('https://apii-iviq.onrender.com/api/products');
           const products = await response.json();
           return products.reduce((acc, product) => {
             acc[product.name] = product.code;
@@ -145,7 +145,7 @@ const Download = () => {
       }
       const fetchSales = async () => {
         try {
-          const response = await axios.get('/api/sales');
+          const response = await axios.get('https://apii-iviq.onrender.com/api/sales');
           setSales(response.data);
         } catch (error) {
           console.error("Failed to fetch sales:", error.response ? error.response.data : error.message);
