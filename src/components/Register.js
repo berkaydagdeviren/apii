@@ -13,7 +13,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3002/api/auth/register', { username, email, password, role }, { withCredentials: true });
+      const response = await axios.post('https://apii-iviq.onrender.com/api/auth/register', { username, email, password, role }, { withCredentials: true });
       localStorage.setItem('token', response.data.token);
       navigate('/');
       console.log('Registration successful');
