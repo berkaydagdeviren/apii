@@ -23,6 +23,7 @@ const RetailTracking = () => {
         throw new Error('Network response was not ok');
         }
         const companiesResponse = await response.json();
+        console.log(companiesResponse)
         setCompanies(companiesResponse.data.map(company => ({ label: company.name, value: company._id })));
         const productsResponse = await axios.get('/api/products');
         setProducts(productsResponse.data.map(product => ({ label: product.name, value: product._id, price: product.price })));
