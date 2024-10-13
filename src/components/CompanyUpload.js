@@ -19,7 +19,7 @@ const CompanyUpload = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('/api/import/companies', formData, {
+      const response = await axios.post('https://apii-iviq.onrender.com/api/import/companies', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
