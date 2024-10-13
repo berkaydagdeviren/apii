@@ -30,7 +30,7 @@ const ProductUpload = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('/api/import/products', formData, {
+      const response = await axios.post('https://apii-iviq.onrender.com/api/import/products', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
