@@ -14,7 +14,7 @@ const EditSalePage = () => {
   useEffect(() => {
     const fetchSaleData = async () => {
       try {
-        const response = await axios.get(`/api/sales/${id}`);
+        const response = await axios.get(`https://apii-iviq.onrender.com/api/sales/${id}`);
         setSaleData(response.data);
         const initialPrices = {};
         response.data.itemsSold.forEach(item => {
@@ -40,7 +40,7 @@ const EditSalePage = () => {
         ...item,
         price: updatedPrices[item.productId] || item.price
       }));
-      await axios.patch(`/api/sales/${id}`, { itemsSold: updatedItemsSold });
+      await axios.patch(`https://apii-iviq.onrender.com/api/sales/${id}`, { itemsSold: updatedItemsSold });
       console.log('Sale updated successfully');
       navigate('/retail-tracking');
     } catch (error) {
