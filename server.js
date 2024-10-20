@@ -58,10 +58,4 @@ app.use('/api/import', importRoutes);
 app.use(importProductRoutes);
 
 // Server listens on the port defined in the .env file, or 3002 as a fallback
-const PORT = process.env.PORT || 3002;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-}).on('error', (error) => {
-  console.error('Error starting server:', error);
-});
