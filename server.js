@@ -19,14 +19,10 @@ connectDB();
 const app = express();
 
 // Trust the proxy to ensure secure headers are being transmitted properly
-app.set('trust proxy', true);
+
 
 // Enable CORS for all routes with specific configuration
-app.use(cors({
-        origin: "https://apii-iviq.onrender.com"
-    }
-))
-app.options('*', cors())
+app.use(cors())
 
 // Middleware to parse JSON bodies
 app.use(express.json());
