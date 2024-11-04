@@ -19,11 +19,12 @@ const RetailTracking = () => {
         const companiesResponse = await axios.get('https://apii-iviq.onrender.com/api/companies');
         setCompanies(companiesResponse.data.map(company => ({ label: company.name, value: company._id })));
         const productsResponse = await axios.get('https://apii-iviq.onrender.com/api/products');
-        setProducts(productsResponse.data.map(product => ({ label: product.name, value: product._id, price: product.price })));
+        setProducts(productsResponse.data.map(product => ({ label: product.name, value: product._id, price: product.price, kdv:product.KDV_ORANI })));
       } catch (error) {
         console.error("Error fetching companies or products:", error.response ? error.response.data : error.message);
       }
     };
+    console.log(products)
     fetchCompaniesAndProducts();
   }, []);
 
@@ -51,6 +52,7 @@ const RetailTracking = () => {
     const newProduct = { ...product, quantity: 1, price: '', isDifferentPrice: false, priceColor: '' };
     //setSelectedProducts([...selectedProducts, newProduct]);
     setSelectedProducts(selectedOption)
+    console.log(selectedOption)
   };
 
   const handleRemoveProduct = (index) => {
@@ -85,18 +87,20 @@ const RetailTracking = () => {
       return; // Stop the form submission if validation fails
     }
     try {
+      
       const saleData = {
         companyName: selectedCompany.value,
-        itemsSold: selectedProducts.map(({ label, value, quantity, price, isDifferentPrice, priceColor }) => ({
+        itemsSold: selectedProducts.map(({ label, value, quantity, price, isDifferentPrice, priceColor, kdv }) => ({
           itemName: label,
           productId: value, // Changed from value to productId to match the backend model
           quantity,
           price: price || undefined,
           isDifferentPrice,
-          priceColor
+          priceColor,
+          kdv
         }))
       };
-      
+      console.log(saleData)
       await axios.post('https://apii-iviq.onrender.com/api/sales', saleData);
       alert('Sale record added successfully');
       setSelectedProducts([]);
@@ -190,7 +194,7 @@ const RetailTracking = () => {
               }</h5>
               <p><br/><br/> 
                 {
-              sale.itemsSold.length > 0 ? sale.itemsSold.map((item, itemIndex) => <span key={`${sale.itemIndex}-${itemIndex}`}>{`${item.itemName} - Quantity: ${item.quantity}, Price: ${item.price || 'N/A'}`}</span>).reduce((acc, curr, index, array) => index < array.length - 1 ? [...acc, curr, ', '] : [...acc, curr], []) : "No items sold"
+              sale.itemsSold.length > 0 ? sale.itemsSold.map((item, itemIndex) => <span key={`${sale.itemIndex}-${itemIndex}`}>{`${item.itemName} - Quantity: ${item.quantity}, Price: ${item.price || 'N/A'}, KDV: ${item.kdv}`}</span>).reduce((acc, curr, index, array) => index < array.length - 1 ? [...acc, curr, ', '] : [...acc, curr], []) : "No items sold"
               }</p>
               <button onClick={() => deleteSale(sale._id)}>İrsaliye Sil</button>
               <Link to={`/edit-sale/${sale._id}`}></Link>
