@@ -68,7 +68,7 @@ const Download = () => {
           { header: 'Fiili Tarih', key: 'actualDate', width: 20 },
           { header: 'Fiyat Tipi', key: 'priceType', width: 20 },
         ];
-      
+        console.log(items)
         // Add rows from the items
         items.forEach(item => {
           worksheet.addRow({
@@ -80,7 +80,7 @@ const Download = () => {
             discount1: '', // Adjust as necessary
             discount2Type: '', // Adjust as necessary
             discount2: '', // Adjust as necessary
-            vat: '', // Adjust as necessary
+            vat: item.kdv, // Adjust as necessary
             actualDate: '', // Adjust as necessary
             priceType: item.isDifferentPrice ? 2 : 1,
           });
@@ -179,12 +179,11 @@ const Download = () => {
             : "Bir tarih seçin"
         }
         <div>
-            {console.log(companiesWithDateSales)}
             {
              
             Object.entries(companiesWithDateSales).map(([companyName, companyData], index) => {
         const items = flattenItems(companyData.items);
-
+              console.log(items)
         return (
           <div key={index} className="sale-card">
             <h1>{companyName}</h1>
@@ -215,7 +214,7 @@ const Download = () => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td>{item.kdv}</td>
                     <td></td>
                     {item.isDifferentPrice ? 2 : 1}
                   </tr>
