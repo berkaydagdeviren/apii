@@ -10,9 +10,17 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  price2: {
+    type: Number,
+    required: false
+  },
   code: {
     type: String,
     required: true
+  },
+  KDV_ORANI: {  // New tax property
+    type: Number,
+    required: true,  // Set to true if tax is mandatory, otherwise set to false
   }
 }, { timestamps: true });
 
