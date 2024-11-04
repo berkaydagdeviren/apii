@@ -23,6 +23,10 @@ const saleRecordSchema = new mongoose.Schema({
     price: {
       type: Number,
     },
+    kdv: {
+      type: Number,
+      required: true,
+    },
     isDifferentPrice: {
       type: Boolean,
       default: false,
