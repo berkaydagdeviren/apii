@@ -22,7 +22,9 @@ router.post('/api/import/products', upload.single('file'), (req, res) => {
         return new ProductModel({
           code: row.code,
           name: row.name,
-          price: parseFloat(row.price)
+          price: parseFloat(row.price),
+          price2:parseFloat(row.price2),
+          KDV_ORANI: parseFloat(row.KDV_ORANI) // Add this line
         }).save().catch(err => {
           if (err.code === 11000) {
             console.error(`Duplicate product name: ${row.name}`, err);
