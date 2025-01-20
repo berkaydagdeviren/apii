@@ -6,17 +6,21 @@ const {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  saveProductBarcode
 } = require('../controllers/productController');
 
+// GET all products and POST new product
 router.route('/')
   .get(getProducts)
   .post(createProduct);
 
+// GET, PATCH, DELETE specific product and POST barcode
 router.route('/:id')
   .get(getProductById)
   .patch(updateProduct)
-  .delete(deleteProduct);
+  .delete(deleteProduct)
+  .post(saveProductBarcode);  // Added this line to match your frontend request
 
 module.exports = router;
 

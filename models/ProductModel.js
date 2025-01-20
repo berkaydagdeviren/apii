@@ -18,9 +18,18 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  KDV_ORANI: {  // New tax property
+  KDV_ORANI: {
     type: Number,
-    required: true,  // Set to true if tax is mandatory, otherwise set to false
+    required: true
+  },
+  barcode: {
+    type: String,
+    unique: true,
+    sparse: true  // This allows null/undefined values while maintaining uniqueness for non-null values
+  },
+  barcodeGenerated: {
+    type: Date,
+    default: null
   }
 }, { timestamps: true });
 
@@ -35,10 +44,14 @@ productSchema.post('save', function(doc) {
 
 productSchema.post('save', function(error, doc, next) {
   if (error.name === 'MongoError' && error.code === 11000) {
-    console.error(`There was a duplicate key error for product: ${doc.name}`, error);
-    next(new Error('There was a duplicate key error'));
+    if (error.keyPattern.barcode) {
+      next(new Error('Duplicate barcode error: This barcode already exists.'));
+    } else if (error.keyPattern.name) {
+      next(new Error('Duplicate key error: A product with this name already exists.'));
+    } else {
+      next(new Error('Duplicate key error'));
+    }
   } else {
-    console.error('Error saving product', error);
     next(error);
   }
 });

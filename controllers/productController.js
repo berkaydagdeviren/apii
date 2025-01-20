@@ -76,10 +76,44 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Save barcode for product
+// @route   POST /api/products/:id
+// @access  Public
+const saveProductBarcode = async (req, res) => {
+    try {
+      const { barcode } = req.body;
+      
+      if (!barcode) {
+        return res.status(400).json({ message: 'Barcode is required' });
+      }
+  
+      const product = await Product.findById(req.params.id);
+      
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      // Check if barcode already exists on another product
+      const existingProduct = await Product.findOne({ barcode });
+      if (existingProduct && existingProduct._id.toString() !== req.params.id) {
+        return res.status(400).json({ message: 'Barcode already exists on another product' });
+      }
+  
+      product.barcode = barcode;
+      product.barcodeGenerated = new Date();
+      
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  saveProductBarcode
 };
