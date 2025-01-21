@@ -10,9 +10,11 @@ const getRetailRecords = asyncHandler(async (req, res) => {
   const query = {};
   
   if (startDate && endDate) {
+    const endOfDay = new Date(endDate);
+    endOfDay.setHours(23, 59, 59, 999);
     query.date = {
       $gte: new Date(startDate),
-      $lte: new Date(endDate)
+      $lte: endOfDay
     };
   }
 

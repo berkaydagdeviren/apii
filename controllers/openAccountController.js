@@ -12,7 +12,7 @@ const getOpenAccountRecords = async (req, res) => {
     if (date) query.date = new Date(date);
     
     const records = await OpenAccountRecord.find(query)
-      .populate('company', 'name')
+      //.populate('company', 'name')
       .sort({ date: -1 });
       
     res.json(records);
@@ -25,9 +25,11 @@ const getOpenAccountRecords = async (req, res) => {
 // @route   POST /api/open-account-records
 const createOpenAccountRecord = async (req, res) => {
   try {
-    const record = await OpenAccountRecord.create(req.body);
-    res.status(201).json(record);
+    const record =  new OpenAccountRecord(req.body);
+    const savedRecord = await record.save();
+    res.status(201).json(savedRecord);
   } catch (error) {
+    console.error('Error creating open account record:', error);
     res.status(400).json({ message: error.message });
   }
 };
