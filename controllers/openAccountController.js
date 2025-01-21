@@ -5,17 +5,41 @@ const OpenAccountRecord = require('../models/OpenAccountRecord');
 // @route   GET /api/open-account-records
 const getOpenAccountRecords = async (req, res) => {
   try {
-    const { company, date } = req.query;
-    const query = {};
+    const { startDate, endDate, company, date } = req.query;
+  const query = {};
+
+  if (company) {
+    query.company = company;
+  }
+
+  if (date) {
+    // For single day query
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
     
-    if (company) query.company = company;
-    if (date) query.date = new Date(date);
-    
-    const records = await OpenAccountRecord.find(query)
-      //.populate('company', 'name')
-      .sort({ date: -1 });
-      
-    res.json(records);
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    query.date = {
+      $gte: startOfDay,
+      $lte: endOfDay
+    };
+  } else if (startDate && endDate) {
+    // For date range query
+    const endOfDay = new Date(endDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    query.date = {
+      $gte: new Date(startDate),
+      $lte: endOfDay
+    };
+  }
+
+  const records = await OpenAccountRecord.find(query)
+    .populate('company')
+    .sort({ date: -1 });
+
+  res.json(records);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
