@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+const { cacheMidlleware } = require ('./config/cache');
 const productRoutes = require('./routes/productRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const retailRecordRoutes = require('./routes/retailRecordRoutes');
@@ -24,7 +25,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
-
+app.use(cacheMiddleware);
 // Routes
 app.use('/api/products', productRoutes);
 app.use('/api/companies', companyRoutes);
