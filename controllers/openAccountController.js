@@ -43,7 +43,7 @@ const updateOpenAccountRecord = async (req, res) => {
     }
     
     Object.assign(record, req.body);
-    const updatedRecord = await record.save();
+    const updatedRecord = await record.update();
     res.json(updatedRecord);
   } catch (error) {
     res.status(400).json({ message: error.message });
