@@ -37,13 +37,16 @@ const createOpenAccountRecord = async (req, res) => {
 // @route   PATCH /api/open-account-records/:id
 const updateOpenAccountRecord = async (req, res) => {
   try {
-    const record = await OpenAccountRecord.findById(req.params.id);
-    if (!record) {
+    const updatedRecord = await OpenAccountRecord.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true } // This option returns the updated document
+    );
+    
+    if (!updatedRecord) {
       return res.status(404).json({ message: 'Record not found' });
     }
     
-    Object.assign(record, req.body);
-    const updatedRecord = await record.update();
     res.json(updatedRecord);
   } catch (error) {
     res.status(400).json({ message: error.message });
