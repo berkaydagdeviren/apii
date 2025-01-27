@@ -39,18 +39,23 @@ const createRetailRecord = asyncHandler(async (req, res) => {
 // @desc    Update retail record
 // @route   PATCH /api/retail-records/:id
 // @access  Public
-const updateRetailRecord = asyncHandler(async (req, res) => {
-  const record = await RetailRecord.findById(req.params.id);
-  
-  if (record) {
-    Object.assign(record, req.body);
-    const updatedRecord = await record.save();
+const updateRetailRecord = async (req, res) => {
+  try {
+    const updatedRecord = await RetailRecord.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true } // This option returns the updated document
+    );
+    
+    if (!updatedRecord) {
+      return res.status(404).json({ message: 'Record not found' });
+    }
+    
     res.json(updatedRecord);
-  } else {
-    res.status(404);
-    throw new Error('Record not found');
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
-});
+};
 
 // @desc    Delete retail record
 // @route   DELETE /api/retail-records/:id
